@@ -1,4 +1,5 @@
 import json
+import error
 class lang:
     def __init__(self):#实例化类就加载
 
@@ -10,4 +11,7 @@ class function(lang):
                 jsondata = lang_files.readline()
                 self.data = json.load(jsondata)
                 lang_files.close()
+        except error.LangError:
+            pass
+
 
