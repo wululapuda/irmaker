@@ -1,6 +1,6 @@
 import tkinter
 import tkinter.font
-from tkinter import filedialog
+from tkinter import ttk
 
 import pyglet
 from tkinter import filedialog
@@ -43,8 +43,8 @@ class gui__welcome:
 
 class gui__create_project:
     @staticmethod
-    def run(event):
-
+    def run():
+        option = ["1.12.2","1.16.5"]
         screen = tkinter.Tk()
         screen.title("irmaker")
         screen.iconbitmap("image\\logo.ico")
@@ -58,10 +58,21 @@ class gui__create_project:
         label__description = tkinter.Label(screen,text="描 述",font=font)
         label__description.place(x=40,y=100)
         label__logo = tkinter.Label(screen,text="追加包图标",font=font)
-        label__logo.place(x=20,y=160)
-
+        label__logo.place(x=20,y=170)
+        label__project_path = tkinter.Label(screen,text="工作区目录",font=font)
+        combobox__version = ttk.Combobox(master=screen,values=option,width=61)
+        combobox__version.set(option[0])
+        combobox__version.place(x=120,y=60)
+        label__project_path.place(x=20,y=250)
+        entry__packname = tkinter.Entry(master=screen,font=font,width=55)
+        entry__packname.place(x=120,y=20)
+        text__description = tkinter.Text(master=screen,width=63,height=4)
+        text__description.place(x=120,y=100)
+        button__create = tkinter.Button(master=screen,text="创建",font=("等线",11))
+        button__create.place(x=480,y=330)
+        screen.mainloop()
 
 
 if __name__ == "__main__":
-    run = gui__welcome()
+    run = gui__create_project()
     run.run()
