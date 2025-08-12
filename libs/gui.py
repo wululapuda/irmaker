@@ -1,6 +1,10 @@
 import tkinter
 import tkinter.font
+from tkinter import filedialog
+
 import pyglet
+from tkinter import filedialog
+import time
 
 pyglet.options['win32_gdi_font'] = True
 pyglet.font.add_file("font\\Deng.ttf")
@@ -28,27 +32,36 @@ class gui__welcome:
         self.button__open_project.place(x=self.x_button + self.interval_button, y=self.y_button)
         self.button__setting = tkinter.Button(master=self.frame1, text="设置", height=4, width=10, bd=3)
         self.button__setting.place(x=self.x_button + 2 * self.interval_button, y=self.y_button)
+        self.button__create_project.bind("<ButtonRelease-1>",func=gui__create_project.run)
+        self.button__open_project.bind("<ButtonRelease-1>",func=self.open_projectfile)
         self.screen.mainloop()
 
+    @staticmethod
+    def open_projectfile(event):
+        path_projectfile = filedialog.askopenfilename(title="打开工作区文件", filetypes=[("project file", "*.imz"), ("All files", "*.*")])
+        print(path_projectfile)
+
 class gui__create_project:
-    def run(self):
-        self.screen = tkinter.Tk()
-        self.screen.title("irmaker")
-        self.screen.iconbitmap("image\\logo.ico")
-        self.screen.geometry("600x400")
-        self.screen.resizable(False, False)
-        self.font = tkinter.font.Font(family="等线",size=12)
-        self.label__packname = tkinter.Label(master=self.screen,text="追加包名称",font=self.font)
-        self.label__packname.place(x=20,y=20)
-        self.label__version = tkinter.Label(self.screen,text="游戏版本",font=self.font)
-        self.label__version.place(x=25, y=60)
-        self.label__description = tkinter.Label(self.screen,text="描 述",font=self.font)
-        self.label__description.place(x=40,y=100)
-        self.label__logo = tkinter.Label(self.screen,text="追加包图标",font=self.font)
-        self.label__logo.place(x=20,y=160)
-        self.screen.mainloop()
+    @staticmethod
+    def run(event):
+
+        screen = tkinter.Tk()
+        screen.title("irmaker")
+        screen.iconbitmap("image\\logo.ico")
+        screen.geometry("600x400")
+        screen.resizable(False, False)
+        font = tkinter.font.Font(family="等线",size=12)
+        label__packname = tkinter.Label(master=screen,text="追加包名称",font=font)
+        label__packname.place(x=20,y=20)
+        label__version = tkinter.Label(screen,text="游戏版本",font=font)
+        label__version.place(x=25, y=60)
+        label__description = tkinter.Label(screen,text="描 述",font=font)
+        label__description.place(x=40,y=100)
+        label__logo = tkinter.Label(screen,text="追加包图标",font=font)
+        label__logo.place(x=20,y=160)
+
 
 
 if __name__ == "__main__":
-    run = gui__create_project()
+    run = gui__welcome()
     run.run()
