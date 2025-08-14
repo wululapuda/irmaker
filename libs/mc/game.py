@@ -6,41 +6,99 @@ import threading
 import subprocess
 from pathlib import Path
 
+from tkinter import ttk
+
 
 class MinecraftInstaller:
     def __init__(self, install_path):
         self.install_path = Path(install_path)
         self.versions_path = self.install_path / 'versions'
         self.libraries_path = self.install_path / 'libraries'
+        self.progress = 0
+        self.status = "等待安装"
+        self.finished = False
+        self.error = None
+        self._lock = threading.Lock()
+
+        # 创建必要目录
         os.makedirs(self.versions_path, exist_ok=True)
         os.makedirs(self.libraries_path, exist_ok=True)
 
+    def get_progress(self):
+        """获取当前安装进度 (0-100)"""
+        with self._lock:
+            return self.progress
+
+    def get_status(self):
+        """获取当前状态信息"""
+        with self._lock:
+            return self.status
+
+    def is_finished(self):
+        """检查安装是否完成"""
+        with self._lock:
+            return self.finished
+
+    def has_error(self):
+        """检查是否有错误发生"""
+        with self._lock:
+            return self.error is not None
+
+    def get_error(self):
+        """获取错误信息"""
+        with self._lock:
+            return self.error
+
+    def _update_progress(self, value, status):
+        """更新进度和状态 (线程安全)"""
+        with self._lock:
+            self.progress = value
+            self.status = status
+
     def install(self, mc_jar_path, forge_jar_path, version_json_path):
-        """安装MC本体和Forge到指定路径"""
-        # 读取版本信息
-        with open(version_json_path, 'r') as f:
-            version_data = json.load(f)
+        """安装MC本体和Forge到指定路径 (在后台线程中运行)"""
 
-        version_id = version_data['id']
-        version_dir = self.versions_path / version_id
-        os.makedirs(version_dir, exist_ok=True)
+        def run_installation():
+            try:
+                # 步骤1: 读取版本信息 (5%)
+                self._update_progress(5, "正在读取版本信息...")
+                with open(version_json_path, 'r') as f:
+                    version_data = json.load(f)
 
-        # 安装MC本体
-        mc_dest = version_dir / f'{version_id}.jar'
-        shutil.copy(mc_jar_path, mc_dest)
-        print(f"已安装MC本体: {mc_dest}")
+                version_id = version_data['id']
+                version_dir = self.versions_path / version_id
+                os.makedirs(version_dir, exist_ok=True)
 
-        # 安装Forge
-        forge_dest = version_dir / f'{version_id}-forge.jar'
-        shutil.copy(forge_jar_path, forge_dest)
-        print(f"已安装Forge: {forge_dest}")
+                # 步骤2: 安装MC本体 (25%)
+                self._update_progress(25, "正在安装MC本体...")
+                mc_dest = version_dir / f'{version_id}.jar'
+                shutil.copy(mc_jar_path, mc_dest)
 
-        # 保存版本JSON
-        json_dest = version_dir / f'{version_id}.json'
-        shutil.copy(version_json_path, json_dest)
-        print(f"已保存版本配置: {json_dest}")
+                # 步骤3: 安装Forge (50%)
+                self._update_progress(50, "正在安装Forge...")
+                forge_dest = version_dir / f'{version_id}-forge.jar'
+                shutil.copy(forge_jar_path, forge_dest)
 
-        return version_id
+                # 步骤4: 保存版本配置 (75%)
+                self._update_progress(75, "正在保存配置...")
+                json_dest = version_dir / f'{version_id}.json'
+                shutil.copy(version_json_path, json_dest)
+
+                # 步骤5: 安装完成 (100%)
+                self._update_progress(100, "安装完成!")
+                with self._lock:
+                    self.finished = True
+
+            except Exception as e:
+                with self._lock:
+                    self.error = str(e)
+                    self.status = f"安装失败: {str(e)}"
+
+        # 启动安装线程
+        self._update_progress(0, "开始安装...")
+        thread = threading.Thread(target=run_installation, daemon=True)
+        thread.start()
+        return thread
 
 
 class MinecraftLauncher:
@@ -54,7 +112,9 @@ class MinecraftLauncher:
         versions = [d for d in os.listdir(self.versions_path)
                     if os.path.isdir(self.versions_path / d)]
 
-        if len(versions) != 1:
+        if len(versions) == 0:
+            raise RuntimeError("未找到任何MC版本")
+        if len(versions) > 1:
             raise RuntimeError("安装目录必须包含且仅包含一个MC版本")
         return versions[0]
 
@@ -133,3 +193,6 @@ class MinecraftLauncher:
         thread.start()
         print("游戏已在后台线程启动...")
         return thread
+
+
+
