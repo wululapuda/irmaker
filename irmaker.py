@@ -9,24 +9,7 @@ import json
 
 from pyglet import image
 
-theme = {"1":["#4A6572","#E1E8ED",{"button":[
-  "#4A6572",
-  "#526D7A",
-  "#5B7682",
-  "#637E8A",
-  "#6C8692",
-  "#758E9A",
-  "#7E96A2",
-  "#879EAA",
-  "#90A6B2",
-  "#99AEBA",
-  "#A2B6C2",
-  "#ABBECA",
-  "#B4C6D2",
-  "#BDCEDA",
-  "#D2DDE5",
-  "#E1E8ED"
-]}],
+theme = {"1":["#4A6572","#E1E8ED"],
          "2":["#5B7876","#EDF3F2"],
          "3":["#A1887F","#F5EFEB"],
          "4":["#6D5D6E","#F0EEF2"],
@@ -85,12 +68,6 @@ class gui:
             if self.theme != "custom":
                 self.screen.config(bg=theme[self.theme][0])
                 self.frame1.config(bg=theme[self.theme][1])
-        def button_out(self,master):
-            for i in range(0,15,1):
-                master.config(bg=theme[self.theme][3]["button"][i])
-        def button_enter(self,master):
-            for i in range(-1,-16,1):
-                master.config(bg=theme[self.theme][3]["button"][i])
 
 
 
