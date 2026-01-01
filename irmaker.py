@@ -1,3 +1,4 @@
+import time
 import tkinter
 import tkinterdnd2
 import tkinter.messagebox
@@ -6,8 +7,31 @@ import tkinter.ttk
 import configparser
 import json
 
+from pyglet import image
 
-theme = {"1":["#4A6572","#E1E8ED"],"2":["#5B7876","#EDF3F2"],"3":["#A1887F","#F5EFEB"],"4":["#6D5D6E","#F0EEF2"],"5":["#616161","#F5F5F5"]}
+theme = {"1":["#4A6572","#E1E8ED",{"button":[
+  "#4A6572",
+  "#526D7A",
+  "#5B7682",
+  "#637E8A",
+  "#6C8692",
+  "#758E9A",
+  "#7E96A2",
+  "#879EAA",
+  "#90A6B2",
+  "#99AEBA",
+  "#A2B6C2",
+  "#ABBECA",
+  "#B4C6D2",
+  "#BDCEDA",
+  "#D2DDE5",
+  "#E1E8ED"
+]}],
+         "2":["#5B7876","#EDF3F2"],
+         "3":["#A1887F","#F5EFEB"],
+         "4":["#6D5D6E","#F0EEF2"],
+         "5":["#616161","#F5F5F5"]
+         }
 
 def config_get(key1,key2):
     config = configparser.ConfigParser()
@@ -41,14 +65,33 @@ class gui:
             self.frame1 = tkinter.Frame(master=self.screen,bd=165,width=450,bg="#E1E8ED")
             self.frame1.place(x=150,y=0,width=450,height=350)
             self.label1 = tkinter.Label(master=self.frame1, text=Langauge().language['lang']["label"]["welcome_description"],font=("deng",15),justify="left",bg=theme[self.theme][1])
-            self.label1.place(x=-85,y=-50)
-            self.label1 = tkinter.Label(master=self.frame1,
+            self.label1.place(x=-145,y=-50)
+            self.label2 = tkinter.Label(master=self.frame1,
                                         text="IR Maker",
                                         font=("deng", 30), justify="left", bg=theme[self.theme][1])
-            self.label1.place(x=-30, y=-120)
+            self.label2.place(x=-30, y=-120)
+            self.button1 = tkinter.Button(master=self.frame1,text=Langauge().language['lang']["button"]["welcome_create_project"],relief="groove",bg=theme[self.theme][1],activebackground=theme[self.theme][0],activeforeground=theme[self.theme][1])
+            self.button1.place(x=-120,y=20,height=100,width=100)
+            self.button2 = tkinter.Button(master=self.frame1,
+                                          text=Langauge().language['lang']["button"]["welcome_open_project"],
+                                          relief="groove", bg=theme[self.theme][1],
+                                          activebackground=theme[self.theme][0], activeforeground=theme[self.theme][1])
+            self.button2.place(x=0, y=20, height=100, width=100)
+            self.button3 = tkinter.Button(master=self.frame1,
+                                          text=Langauge().language['lang']["button"]["welcome_setting"],
+                                          relief="groove", bg=theme[self.theme][1],
+                                          activebackground=theme[self.theme][0], activeforeground=theme[self.theme][1])
+            self.button3.place(x=120, y=20, height=100, width=100)
             if self.theme != "custom":
                 self.screen.config(bg=theme[self.theme][0])
                 self.frame1.config(bg=theme[self.theme][1])
+        def button_out(self,master):
+            for i in range(0,15,1):
+                master.config(bg=theme[self.theme][3]["button"][i])
+        def button_enter(self,master):
+            for i in range(-1,-16,1):
+                master.config(bg=theme[self.theme][3]["button"][i])
+
 
 
 
