@@ -1,23 +1,64 @@
-#coding:utf-8
-from configparser import ConfigParser
+import tkinter
+import tkinterdnd2
+import tkinter.messagebox
+import tkinter.filedialog
+import tkinter.ttk
+import configparser
+import json
 
 
-class config_read:
-    config = ConfigParser()
-    # 读取INI文件
-    config.read("libs\\config\\CONFIG.ini")
-    def lang(self):
-        return self.config["lang"]["lang_type"]
+theme = {"1":["#4A6572","#E1E8ED"],"2":["#5B7876","#EDF3F2"],"3":["#A1887F","#F5EFEB"],"4":["#6D5D6E","#F0EEF2"],"5":["#616161","#F5F5F5"]}
 
-def create_project(name:str,version,description:str,path):
-    number = 0
-    if version == "1.12.2":
-        number = 3
-    if version == "1.16.5":
-        number = 6
-    with open(path+name+".irmaker","rb+") as f:
-        f.writelines(["packname"+"  "+name,"gameversion"+"  "+version+"\n","{\n\n"])
-        f.close()
-    with open(path+"pack.mcmeta","w") as f:
-        f.writelines(["{\n","  \"pack\":{\n","    \"pack_format\": "+str(number)+"\n","    \"description\": "+"\""+description+"\""+"\n","  }\n","}"])
-        f.close()
+def config_get(key1,key2):
+    config = configparser.ConfigParser()
+    config.read("libs/config.ini")
+    return config.get(key1,key2)
+
+class Langauge:
+    language = {}
+    def __init__(self):
+        self.lang_type = config_get("system","langauge")
+        with open(f"libs/lang/{self.lang_type}.json","r",encoding="utf-8") as f:
+            self.data = json.load(f)
+        self.language = self.data
+
+
+
+class gui:
+    class Common:
+        def run(self):
+            self.screen.mainloop()
+        def CutDown(self):
+            self.screen.destroy()
+    class MainGUI(Common):
+        def __init__(self):
+            self.theme = config_get("User","theme")
+            self.screen = tkinter.Tk()
+            self.screen.title("IR Maker")
+            self.screen.iconbitmap(f"libs/image/logo.ico")
+            self.screen.geometry("600x350+450+200")
+            self.screen.resizable(False,False)
+            self.frame1 = tkinter.Frame(master=self.screen,bd=165,width=450,bg="#E1E8ED")
+            self.frame1.place(x=150,y=0,width=450,height=350)
+            self.label1 = tkinter.Label(master=self.frame1, text=Langauge().language['lang']["label"]["welcome_description"],font=("deng",15),justify="left",bg=theme[self.theme][1])
+            self.label1.place(x=-85,y=-50)
+            self.label1 = tkinter.Label(master=self.frame1,
+                                        text="IR Maker",
+                                        font=("deng", 30), justify="left", bg=theme[self.theme][1])
+            self.label1.place(x=-30, y=-120)
+            if self.theme != "custom":
+                self.screen.config(bg=theme[self.theme][0])
+                self.frame1.config(bg=theme[self.theme][1])
+
+
+
+def init():
+    gui.MainGUI().run()
+
+
+
+
+
+
+if __name__ == "__main__":
+    init()
