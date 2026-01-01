@@ -13,7 +13,13 @@ theme = {"1":["#4A6572","#E1E8ED"],
          "2":["#5B7876","#EDF3F2"],
          "3":["#A1887F","#F5EFEB"],
          "4":["#6D5D6E","#F0EEF2"],
-         "5":["#616161","#F5F5F5"]
+         "5":["#616161","#F5F5F5"],
+         "6":["#2C3E50","#EAEDF1"],
+         "7":["#BF6C3B","#FDF2E9"],
+         "8":["#424242","#FAFAFA"],
+         "9":["#A76B90","#FBECF4"],
+         "10":["#005B5B","#E5F2F2"],
+         "11":["#FFC107","#FFF9E6"]
          }
 
 def config_get(key1,key2):
@@ -68,12 +74,16 @@ class gui:
             if self.theme != "custom":
                 self.screen.config(bg=theme[self.theme][0])
                 self.frame1.config(bg=theme[self.theme][1])
-
-
-
+    class CreateWork(Common):
+        def __init__(self):
+            self.theme = config_get("User", "theme")
+            self.screen = tkinter.Tk()
+            self.screen.title("IR Maker")
+            self.screen.iconbitmap(f"libs/image/logo.ico")
+            self.screen.geometry("600x350+450+200")
 
 def init():
-    gui.MainGUI().run()
+    gui.CreateWork().run()
 
 
 
