@@ -6,8 +6,10 @@ import tkinter.filedialog
 import tkinter.ttk
 import configparser
 import json
+import logging
+import datetime
 
-from pyglet import image
+
 
 theme = {"1":["#4A6572","#E1E8ED"],
          "2":["#5B7876","#EDF3F2"],
@@ -43,6 +45,17 @@ class gui:
             self.screen.mainloop()
         def CutDown(self):
             self.screen.destroy()
+        def UpdateColor(self):
+            logging.info("Change Theme")
+            if self.theme != "custom":
+                self.screen.config(bg=theme[self.theme][0])
+                self.frame1.config(bg=theme[self.theme][1])
+            else:
+                self.screen.config(bg=config_get("User", "CustomColor_deep"))
+                self.frame1.config(bg=config_get("User", "CustomColor_light"))
+        def UpdateLanguage(self):
+            logging.info("Change Language")
+
     class MainGUI(Common):
         def __init__(self):
             self.theme = config_get("User","theme")
@@ -69,11 +82,17 @@ class gui:
             self.button3 = tkinter.Button(master=self.frame1,
                                           text=Langauge().language['lang']["button"]["welcome_setting"],
                                           relief="groove", bg=theme[self.theme][1],
-                                          activebackground=theme[self.theme][0], activeforeground=theme[self.theme][1])
+                                          activebackground=theme[self.theme][0], activeforeground=theme[self.theme][1],
+                                          command=lambda:self.Setting())
             self.button3.place(x=120, y=20, height=100, width=100)
             if self.theme != "custom":
                 self.screen.config(bg=theme[self.theme][0])
                 self.frame1.config(bg=theme[self.theme][1])
+            else:
+                self.screen.config(bg=config_get("User","CustomColor_deep"))
+                self.frame1.config(bg=config_get("User","CustomColor_light"))
+        def Setting(self):
+            gui.SettingGUI().run()
     class CreateWork(Common):
         def __init__(self):
             self.theme = config_get("User", "theme")
@@ -81,9 +100,25 @@ class gui:
             self.screen.title("IR Maker")
             self.screen.iconbitmap(f"libs/image/logo.ico")
             self.screen.geometry("600x350+450+200")
+    class SettingGUI(Common):
+        def __init__(self):
+            self.theme = config_get("User", "theme")
+            self.screen = tkinter.Toplevel()
+            self.screen.title("IR maker"+" "+Langauge().language['lang']["button"]["welcome_setting"])
+            self.screen.iconbitmap(f"libs/image/logo.ico")
+            self.screen.geometry("600x350+550+180")
+            self.screen.resizable(False, False)
+            self.frame1 = tkinter.Frame(master=self.screen, bd=165, width=450, bg="#E1E8ED")
+            self.frame1.place(x=150, y=0, width=450, height=350)
+            if self.theme != "custom":
+                self.screen.config(bg=theme[self.theme][0])
+                self.frame1.config(bg=theme[self.theme][1])
+            else:
+                self.screen.config(bg=config_get("User", "CustomColor_deep"))
+                self.frame1.config(bg=config_get("User", "CustomColor_light"))
 
 def init():
-    gui.CreateWork().run()
+    gui.MainGUI().run()
 
 
 
