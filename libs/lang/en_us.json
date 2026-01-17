@@ -2,12 +2,13 @@
   "name": "English",
   "lang": {
     "title": "IR Addon Maker",
-      "label": {
+    "label": {
       "welcome_description": "A free immersiverailroading addon creator",
       "create_project_packname": "Addon Name",
       "create_project_version": "Game Version",
       "create_project_description": "Description",
-      "create_project_logo": "Addon Icon"
+      "create_project_logo": "Addon Icon",
+      "setting_theme": "Theme"
   },
   "button": {
       "welcome_create_project": "Create\nWorkspace",
