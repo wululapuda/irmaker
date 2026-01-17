@@ -111,6 +111,7 @@ class gui:
             self.screen.config(bg=theme[self.theme][0])
             self.screen.iconbitmap(f"libs/image/logo.ico")
             self.screen.geometry("450x500+550+200")
+            self.screen.resizable(False,False)
             self.frame1 = tkinter.Frame(master=self.screen, bg=theme[self.theme][0])
             self.frame1.place(x=0, y=0, width=100, height=500)
             self.frame2 = tkinter.Frame(master=self.screen, bg=theme[self.theme][1])
@@ -189,6 +190,8 @@ class gui:
             self.label4.pack(anchor="n", fill="x", side="left")
             self.text3 = tkinter.Text(master=self.frame6,height=5,width=34)
             self.text3.pack(anchor="n", fill="none", side="left")
+            self.button3 = tkinter.Button(master=self.frame2,text=Langauge().language['lang']['button']["create_work_Create"])
+            self.button3.pack(anchor="se",fill="none",padx=25,pady=26,side="bottom")
     class SettingGUI(Common):
         def __init__(self):
             self.value_color = tkinter.Variable()
