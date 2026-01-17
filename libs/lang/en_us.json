@@ -14,6 +14,7 @@
   "button": {
       "welcome_create_project": "Create\nWorkspace",
       "welcome_open_project": "Open\nWorkspace",
+    "create_work_Create": "Create",
       "welcome_setting": "Settings",
       "setting_theme_1": "深海静语",
       "setting_theme_2": "竹影清风",
