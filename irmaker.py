@@ -3,7 +3,7 @@ import tkinter
 import tkinterdnd2
 import tkinter.messagebox
 import tkinter.filedialog
-import tkinter.ttk
+import tkinter.ttk as ttk
 import configparser
 import json
 import logging
@@ -72,8 +72,13 @@ class gui:
                                         text="IR Maker",
                                         font=("deng", 30), justify="left", bg=theme[self.theme][1])
             self.label2.place(x=-30, y=-120)
-            self.button1 = tkinter.Button(master=self.frame1,text=Langauge().language['lang']["button"]["welcome_create_project"],relief="groove",bg=theme[self.theme][1],activebackground=theme[self.theme][0],activeforeground=theme[self.theme][1])
-            self.button1.place(x=-120,y=20,height=100,width=100)
+            self.button1 = tkinter.Button(master=self.frame1,
+                                          text=Langauge().language['lang']["button"]["welcome_create_project"],
+                                          relief="groove", bg=theme[self.theme][1],
+                                          activebackground=theme[self.theme][0],
+                                          activeforeground=theme[self.theme][1],
+                                          command=lambda: self.CreateWork())
+            self.button1.place(x=-120, y=20, height=100, width=100)
             self.button2 = tkinter.Button(master=self.frame1,
                                           text=Langauge().language['lang']["button"]["welcome_open_project"],
                                           relief="groove", bg=theme[self.theme][1],
@@ -83,7 +88,7 @@ class gui:
                                           text=Langauge().language['lang']["button"]["welcome_setting"],
                                           relief="groove", bg=theme[self.theme][1],
                                           activebackground=theme[self.theme][0], activeforeground=theme[self.theme][1],
-                                          command=lambda:self.Setting())
+                                          command=lambda: self.Setting())
             self.button3.place(x=120, y=20, height=100, width=100)
             if self.theme != "custom":
                 self.screen.config(bg=theme[self.theme][0])
@@ -93,13 +98,97 @@ class gui:
                 self.frame1.config(bg=config_get("User","CustomColor_light"))
         def Setting(self):
             gui.SettingGUI().run()
-    class CreateWork(Common):
+        def CreateWork(self):
+            gui.CreateWorkGUI().run()
+
+    class CreateWorkGUI(Common):
         def __init__(self):
+            self.work_type = tkinter.IntVar(value=1)
+            self.work_type.set(1)
             self.theme = config_get("User", "theme")
-            self.screen = tkinter.Tk()
+            self.screen = tkinter.Tk(screenName="creatework")
             self.screen.title("IR Maker")
+            self.screen.config(bg=theme[self.theme][0])
             self.screen.iconbitmap(f"libs/image/logo.ico")
-            self.screen.geometry("600x350+450+200")
+            self.screen.geometry("450x500+550+200")
+            self.frame1 = tkinter.Frame(master=self.screen, bg=theme[self.theme][0])
+            self.frame1.place(x=0, y=0, width=100, height=500)
+            self.frame2 = tkinter.Frame(master=self.screen, bg=theme[self.theme][1])
+            self.frame2.place(x=100, y=0, width=350, height=500)
+
+            self.button1 = tkinter.Radiobutton(master=self.frame1,
+                                               text="immersive\nRailroading",
+                                               indicatoron=False,
+                                               bg=theme[self.theme][1],
+                                               foreground=theme[self.theme][0],
+                                               activebackground=theme[self.theme][1],
+                                               activeforeground=theme[self.theme][0],
+                                               variable=self.work_type,
+                                               value=1
+
+                                               )
+            self.button1.pack(anchor="nw", fill="both")
+            self.button2 = tkinter.Radiobutton(master=self.frame1,
+                                               text="RealTrainMod",
+                                               indicatoron=False,
+                                               bg=theme[self.theme][1],
+                                               foreground=theme[self.theme][0],
+                                               activebackground=theme[self.theme][1],
+                                               activeforeground=theme[self.theme][0],
+                                               variable=self.work_type,
+                                               value=2
+                                               )
+            self.button2.pack(anchor="nw", fill="both")
+            self.button1.bind("<Button-1>", self.update)
+
+        def update(self, event):
+            self.frame2.destroy()
+            self.frame2 = tkinter.Frame(master=self.screen, bg=theme[self.theme][1])
+            self.frame2.place(x=100, y=0, width=350, height=500)
+
+            if self.work_type.get() == 1:
+                self.ImmersiveRailroading()
+            else:
+                pass
+
+        def ImmersiveRailroading(self):
+            self.frame3 = tkinter.Frame(master=self.frame2, bg=theme[self.theme][1])
+            self.frame3.pack(anchor="n", fill="both", side="top")
+            tkinter.Label(master=self.frame3, bg=theme[self.theme][1]).pack(anchor="n", fill="x", side="top")
+            tkinter.Label(master=self.frame3, bg=theme[self.theme][1]).pack(anchor="n", side="left", fill="none")
+            self.label1 = tkinter.Label(master=self.frame3,
+                                        text=Langauge().language['lang']["label"]["create_project_packname"] + ":",
+                                        bg=theme[self.theme][1])
+            self.label1.pack(anchor="w", fill="none", side="left")
+            self.text1 = tkinter.Entry(master=self.frame3, width=35)
+            self.text1.pack(anchor="n", fill="x", side="left")
+            self.frame4 = tkinter.Frame(master=self.frame2, bg=theme[self.theme][1])
+            self.frame4.pack(anchor="n", fill="both", side="top")
+            tkinter.Label(master=self.frame4, bg=theme[self.theme][1]).pack(anchor="n", fill="x", side="top")
+            tkinter.Label(master=self.frame4, bg=theme[self.theme][1]).pack(anchor="n", side="left", fill="none")
+            self.label2 = tkinter.Label(master=self.frame4, bg=theme[self.theme][1],
+                                        text=Langauge().language['lang']['label']["create_project_author"] + ":")
+            self.label2.pack(anchor="n", fill="x", side="left")
+            self.text2 = tkinter.Entry(master=self.frame4, width=35)
+            self.text2.pack(anchor="n", fill="x", side="left")
+            self.frame5 = tkinter.Frame(master=self.frame2, bg=theme[self.theme][1])
+            self.frame5.pack(anchor="n", fill="both", side="top")
+            tkinter.Label(master=self.frame5, bg=theme[self.theme][1]).pack(anchor="n", fill="x", side="top")
+            tkinter.Label(master=self.frame5, bg=theme[self.theme][1]).pack(anchor="n", side="left", fill="none")
+            self.label3 = tkinter.Label(master=self.frame5, bg=theme[self.theme][1],
+                                        text=Langauge().language['lang']['label']["create_project_version"] + ":")
+            self.label3.pack(anchor="n", fill="x", side="left")
+            self.choose1 = ttk.Combobox(master=self.frame5, width=32,values=["1.12.2","1.16.5"])
+            self.choose1.pack(anchor="n", fill="none", side="left")
+            self.frame6 = tkinter.Frame(master=self.frame2, bg=theme[self.theme][1])
+            self.frame6.pack(anchor="n", fill="both", side="top")
+            tkinter.Label(master=self.frame6, bg=theme[self.theme][1]).pack(anchor="n", fill="x", side="top")
+            tkinter.Label(master=self.frame6, bg=theme[self.theme][1]).pack(anchor="n", side="left", fill="none")
+            self.label4 = tkinter.Label(master=self.frame6, bg=theme[self.theme][1],
+                                        text=Langauge().language['lang']['label']["create_project_version"] + ":")
+            self.label4.pack(anchor="n", fill="x", side="left")
+            self.text3 = tkinter.Text(master=self.frame6,height=5,width=34)
+            self.text3.pack(anchor="n", fill="none", side="left")
     class SettingGUI(Common):
         def __init__(self):
             self.value_color = tkinter.Variable()
