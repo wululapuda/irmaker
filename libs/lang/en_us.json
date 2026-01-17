@@ -5,15 +5,27 @@
     "label": {
       "welcome_description": "A free immersiverailroading addon creator",
       "create_project_packname": "Addon Name",
-      "create_project_version": "Game Version",
+      "create_project_version": "Game version",
       "create_project_description": "Description",
       "create_project_logo": "Addon Icon",
+      "create_project_author": "Author Name",
       "setting_theme": "Theme"
   },
   "button": {
       "welcome_create_project": "Create\nWorkspace",
       "welcome_open_project": "Open\nWorkspace",
-      "welcome_setting": "Settings"
+      "welcome_setting": "Settings",
+      "setting_theme_1": "深海静语",
+      "setting_theme_2": "竹影清风",
+      "setting_theme_3": "素陶暖砂",
+      "setting_theme_4": "薄雾紫汀",
+      "setting_theme_5": "墨韵留白",
+      "setting_theme_6": "极光深语",
+      "setting_theme_7": "蜜橘午后",
+      "setting_theme_8": "墨刻",
+      "setting_theme_9": "粉墨序曲",
+      "setting_theme_10": "鎏金跃影",
+      "setting_theme_11": "鎏金跃影"
     }
   }
 }
