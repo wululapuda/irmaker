@@ -54,7 +54,7 @@ class gui:
                 self.screen.config(bg=config_get("User", "CustomColor_deep"))
                 self.frame1.config(bg=config_get("User", "CustomColor_light"))
         def UpdateLanguage(self):
-            logging.info("Change Language")
+            logging .info("Change Language")
 
     class MainGUI(Common):
         def __init__(self):
@@ -102,6 +102,8 @@ class gui:
             self.screen.geometry("600x350+450+200")
     class SettingGUI(Common):
         def __init__(self):
+            self.value_color = tkinter.Variable()
+            self.value_color.set(value=config_get("User", "theme"))
             self.theme = config_get("User", "theme")
             self.screen = tkinter.Toplevel()
             self.screen.title("IR maker"+" "+Langauge().language['lang']["button"]["welcome_setting"])
@@ -110,6 +112,58 @@ class gui:
             self.screen.resizable(False, False)
             self.frame1 = tkinter.Frame(master=self.screen, bd=165, width=450, bg="#E1E8ED")
             self.frame1.place(x=150, y=0, width=450, height=350)
+            self.label1 = tkinter.Label(master=self.frame1,
+                                        text=Langauge().language["lang"]["label"]["setting_theme"],
+                                        bg=theme[self.theme][1])
+            self.label1.place(x=-140,y=-145,height=20,width=40)
+            self.radiobutton1 = tkinter.Radiobutton(master=self.frame1,
+                                                    text=Langauge().language["lang"]["button"]["setting_theme_1"],
+                                                    variable=self.value_color,
+                                                    value="1",
+                                                    bg=theme[self.theme][1])
+            self.radiobutton1.place(x=-80,y=-146)
+            self.radiobutton2 = tkinter.Radiobutton(master=self.frame1,
+                                                    text=Langauge().language["lang"]["button"]["setting_theme_2"],
+                                                    variable=self.value_color,
+                                                    value="2",
+                                                    bg=theme[self.theme][1])
+            self.radiobutton2.place(x=0, y=-146)
+            self.radiobutton3 = tkinter.Radiobutton(master=self.frame1,
+                                                    text=Langauge().language["lang"]["button"]["setting_theme_3"],
+                                                    variable=self.value_color,
+                                                    value="3",
+                                                    bg=theme[self.theme][1])
+            self.radiobutton3.place(x=80, y=-146)
+            self.radiobutton4 = tkinter.Radiobutton(master=self.frame1,
+                                                    text=Langauge().language["lang"]["button"]["setting_theme_4"],
+                                                    variable=self.value_color,
+                                                    value="4",
+                                                    bg=theme[self.theme][1])
+            self.radiobutton4.place(x=160, y=-146)
+            self.radiobutton5 = tkinter.Radiobutton(master=self.frame1,
+                                                    text=Langauge().language["lang"]["button"]["setting_theme_5"],
+                                                    variable=self.value_color,
+                                                    value="5",
+                                                    bg=theme[self.theme][1])
+            self.radiobutton5.place(x=-80, y=-120)
+            self.radiobutton6 = tkinter.Radiobutton(master=self.frame1,
+                                                    text=Langauge().language["lang"]["button"]["setting_theme_6"],
+                                                    variable=self.value_color,
+                                                    value="6",
+                                                    bg=theme[self.theme][1])
+            self.radiobutton6.place(x=0, y=-120)
+            self.radiobutton7 = tkinter.Radiobutton(master=self.frame1,
+                                                    text=Langauge().language["lang"]["button"]["setting_theme_7"],
+                                                    variable=self.value_color,
+                                                    value="7",
+                                                    bg=theme[self.theme][1])
+            self.radiobutton7.place(x=80, y=-120)
+            self.radiobutton8 = tkinter.Radiobutton(master=self.frame1,
+                                                    text=Langauge().language["lang"]["button"]["setting_theme_8"],
+                                                    variable=self.value_color,
+                                                    value="8",
+                                                    bg=theme[self.theme][1])
+            self.radiobutton8.place(x=160, y=-130)
             if self.theme != "custom":
                 self.screen.config(bg=theme[self.theme][0])
                 self.frame1.config(bg=theme[self.theme][1])
