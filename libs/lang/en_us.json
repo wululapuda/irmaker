@@ -16,17 +16,17 @@
       "welcome_open_project": "Open\nWorkspace",
     "create_work_Create": "Create",
       "welcome_setting": "Settings",
-      "setting_theme_1": "深海静语",
-      "setting_theme_2": "竹影清风",
-      "setting_theme_3": "素陶暖砂",
-      "setting_theme_4": "薄雾紫汀",
-      "setting_theme_5": "墨韵留白",
-      "setting_theme_6": "极光深语",
-      "setting_theme_7": "蜜橘午后",
-      "setting_theme_8": "墨刻",
-      "setting_theme_9": "粉墨序曲",
-      "setting_theme_10": "鎏金跃影",
-      "setting_theme_11": "鎏金跃影"
+      "setting_theme_1": "theme1",
+      "setting_theme_2": "theme2",
+      "setting_theme_3": "theme3",
+      "setting_theme_4": "theme4",
+      "setting_theme_5": "theme5",
+      "setting_theme_6": "theme6",
+      "setting_theme_7": "theme7",
+      "setting_theme_8": "theme8",
+      "setting_theme_9": "theme9",
+      "setting_theme_10": "theme10",
+      "setting_theme_11": "theme11"
     }
   }
 }
